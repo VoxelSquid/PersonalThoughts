@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.event.player.PlayerTeleportEvent
 import org.bukkit.plugin.java.JavaPlugin
 
+// I prefer Kotlin. If you need Java code, ask any AI to transmute the gold back to rock.
 class PersonalThoughts : JavaPlugin(), Listener {
 
     // 1. You need Bifrost instance.
@@ -50,7 +51,7 @@ class PersonalThoughts : JavaPlugin(), Listener {
                     "‘onCreeperNearbyExplodePhrases’ (array of 15 strings [try to be humorously (or sarcastically aggressive) annoyed, joke about creepers (you can do capslock and even swear)])",
             responseType = DynamicPhrases::class,
             onSuccess = { phrases ->
-                // 5. Make sure you hande the result.
+                // 5. Make sure you handle the result. Save it somewhere or.. well.. your choice.
                 this.phrases = phrases
             },
             onFailure = { error ->
@@ -63,7 +64,7 @@ class PersonalThoughts : JavaPlugin(), Listener {
 
     @EventHandler
     private fun whenPlayerRespawns(event: PlayerRespawnEvent) {
-        event.player.sendMessage(phrases!!.onRespawnPhrases.random())
+        event.player.sendMessage("§7§o" + phrases!!.onRespawnPhrases.random())
     }
 
     @EventHandler
@@ -71,7 +72,7 @@ class PersonalThoughts : JavaPlugin(), Listener {
         if (event.cause == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
             server.scheduler.runTaskLater(this, { _ ->
                 if (event.player.location.world!!.name.contains("nether")) {
-                    event.player.sendMessage(phrases!!.onNetherEnterPhrases.random())
+                    event.player.sendMessage("§7§o" + phrases!!.onNetherEnterPhrases.random())
                 }
             }, 20L)
         }
@@ -80,7 +81,7 @@ class PersonalThoughts : JavaPlugin(), Listener {
     @EventHandler
     private fun whenPlayerBreaksDiamonds(event: BlockBreakEvent) {
         when (event.block.type) {
-            Material.DIAMOND_ORE, Material.DEEPSLATE_DIAMOND_ORE -> event.player.sendMessage(phrases!!.onDiamondOreBreakPhrases.random())
+            Material.DIAMOND_ORE, Material.DEEPSLATE_DIAMOND_ORE -> event.player.sendMessage("§7§o" + phrases!!.onDiamondOreBreakPhrases.random())
             else -> {}
         }
     }
@@ -88,7 +89,7 @@ class PersonalThoughts : JavaPlugin(), Listener {
     @EventHandler
     private fun whenCreeperExplodes(event: EntityExplodeEvent) {
         if (event.entityType == EntityType.CREEPER) {
-            event.entity.getNearbyEntities(10.0, 10.0, 10.0).filterIsInstance<Player>().forEach { it.sendMessage(phrases!!.onCreeperNearbyExplodePhrases.random()) }
+            event.entity.getNearbyEntities(10.0, 10.0, 10.0).filterIsInstance<Player>().forEach { it.sendMessage("§7§o" + phrases!!.onCreeperNearbyExplodePhrases.random()) }
         }
     }
 
