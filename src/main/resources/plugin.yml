@@ -1,0 +1,6 @@
+name: PersonalThoughts
+version: '1.0.0'
+main: me.voxelsquid.thoughts.PersonalThoughts
+api-version: '1.18'
+
+depend: [Bifrost]
